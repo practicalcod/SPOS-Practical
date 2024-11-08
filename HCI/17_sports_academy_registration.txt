@@ -1,0 +1,105 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Function to capture and display the form data
+def submit_form():
+    name = name_entry.get()
+    age = age_entry.get()
+    gender = gender_var.get()
+    selected_sport = sport_listbox.get(sport_listbox.curselection())
+    skill_level = skill_level_var.get()
+    previous_experience = experience_var.get()
+    contact_number = contact_entry.get()
+    email = email_entry.get()
+
+    # Validate required fields
+    if not name or not age or not contact_number or not email:
+        messagebox.showwarning("Incomplete Form", "Please fill all required fields.")
+        return
+
+    # Display the form data as a confirmation
+    form_data = (
+        f"Name: {name}\n"
+        f"Age: {age}\n"
+        f"Gender: {gender}\n"
+        f"Selected Sport: {selected_sport}\n"
+        f"Skill Level: {skill_level}\n"
+        f"Previous Experience: {'Yes' if previous_experience else 'No'}\n"
+        f"Contact Number: {contact_number}\n"
+        f"Email: {email}"
+    )
+    messagebox.showinfo("Registration Confirmation", "Form Submitted Successfully!\n\n" + form_data)
+
+# Create main window
+root = tk.Tk()
+root.title("Sports Academy Registration Form")
+root.geometry("400x600")
+
+# Title label
+title_label = tk.Label(root, text="Sports Academy Registration", font=("Arial", 16, "bold"))
+title_label.pack(pady=10)
+
+# Name
+name_label = tk.Label(root, text="Name:")
+name_label.pack(anchor="w", padx=20)
+name_entry = tk.Entry(root)
+name_entry.pack(fill="x", padx=20, pady=5)
+
+# Age
+age_label = tk.Label(root, text="Age:")
+age_label.pack(anchor="w", padx=20)
+age_entry = tk.Entry(root)
+age_entry.pack(fill="x", padx=20, pady=5)
+
+# Gender
+gender_label = tk.Label(root, text="Gender:")
+gender_label.pack(anchor="w", padx=20)
+gender_var = tk.StringVar()
+gender_frame = tk.Frame(root)
+tk.Radiobutton(gender_frame, text="Male", variable=gender_var, value="Male").pack(side="left")
+tk.Radiobutton(gender_frame, text="Female", variable=gender_var, value="Female").pack(side="left")
+tk.Radiobutton(gender_frame, text="Other", variable=gender_var, value="Other").pack(side="left")
+gender_frame.pack(fill="x", padx=20, pady=5)
+
+# Sport Selection
+sport_label = tk.Label(root, text="Select Sport:")
+sport_label.pack(anchor="w", padx=20)
+sport_listbox = tk.Listbox(root, height=4)
+sports_options = ["Football", "Basketball", "Tennis", "Swimming", "Martial Arts", "Gymnastics"]
+for sport in sports_options:
+    sport_listbox.insert(tk.END, sport)
+sport_listbox.pack(fill="x", padx=20, pady=5)
+
+# Skill Level
+skill_label = tk.Label(root, text="Skill Level:")
+skill_label.pack(anchor="w", padx=20)
+skill_level_var = tk.StringVar()
+skill_frame = tk.Frame(root)
+tk.Radiobutton(skill_frame, text="Beginner", variable=skill_level_var, value="Beginner").pack(side="left")
+tk.Radiobutton(skill_frame, text="Intermediate", variable=skill_level_var, value="Intermediate").pack(side="left")
+tk.Radiobutton(skill_frame, text="Advanced", variable=skill_level_var, value="Advanced").pack(side="left")
+skill_frame.pack(fill="x", padx=20, pady=5)
+
+# Previous Experience
+experience_var = tk.IntVar()
+experience_check = tk.Checkbutton(root, text="Previous Experience", variable=experience_var)
+experience_check.pack(anchor="w", padx=20, pady=5)
+
+# Contact Number
+contact_label = tk.Label(root, text="Contact Number:")
+contact_label.pack(anchor="w", padx=20)
+contact_entry = tk.Entry(root)
+contact_entry.pack(fill="x", padx=20, pady=5)
+
+# Email
+email_label = tk.Label(root, text="Email:")
+email_label.pack(anchor="w", padx=20)
+email_entry = tk.Entry(root)
+email_entry.pack(fill="x", padx=20, pady=5)
+
+# Submit Button
+submit_button = tk.Button(root, text="Submit", command=submit_form, bg="lightblue", font=("Arial", 10, "bold"))
+submit_button.pack(pady=20)
+
+# Run the application
+root.mainloop()

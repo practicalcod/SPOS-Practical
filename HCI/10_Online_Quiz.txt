@@ -1,0 +1,53 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Sample quiz questions and options (correct answers are marked with True)
+quiz_data = [
+    {"question": "1. What is the capital of France?", 
+     "options": [("Berlin", False), ("Paris", True), ("Rome", False), ("Madrid", False)]},
+    {"question": "2. Which is the largest ocean on Earth?", 
+     "options": [("Atlantic", False), ("Indian", False), ("Pacific", True), ("Arctic", False)]},
+    {"question": "3. What is the chemical symbol for water?", 
+     "options": [("O", False), ("H2", False), ("H2O", True), ("HO2", False)]},
+    {"question": "4. Which planet is known as the Red Planet?", 
+     "options": [("Earth", False), ("Mars", True), ("Jupiter", False), ("Venus", False)]}
+]
+
+# Function to calculate the result
+def submit_quiz():
+    score = 0
+    for i, (question, var) in enumerate(zip(quiz_data, var_list)):
+        selected = var.get()
+        if question["options"][selected][1]:  # Check if selected option is correct
+            score += 1
+
+    # Show the result in a message box
+    messagebox.showinfo("Quiz Result", f"You got {score} out of {len(quiz_data)} correct!")
+
+# Create main window
+root = tk.Tk()
+root.title("Online Quiz")
+root.geometry("500x400")
+
+# List to store the IntVar() for each question's options
+var_list = []
+
+# Add questions to the GUI
+for i, question in enumerate(quiz_data):
+    # Add question label
+    tk.Label(root, text=question["question"], font=('Arial', 12)).pack(anchor='w', padx=10, pady=5)
+    
+    # Variable to store the selected option
+    var = tk.IntVar(value=-1)  # -1 means no option is selected initially
+    var_list.append(var)
+    
+    # Add options as radio buttons
+    for j, (option_text, is_correct) in enumerate(question["options"]):
+        tk.Radiobutton(root, text=option_text, variable=var, value=j).pack(anchor='w', padx=30)
+
+# Submit button
+tk.Button(root, text="Submit", command=submit_quiz, bg="blue", fg="white").pack(pady=20)
+
+# Start the GUI event loop
+root.mainloop()
+

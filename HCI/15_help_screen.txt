@@ -1,0 +1,61 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Function to display contact information popup
+def show_contact_info():
+    contact_text = (
+        "For assistance, contact us:\n\n"
+        "Email: support@example.com\n"
+        "Phone: +1-800-555-0199\n"
+        "Website: www.example.com"
+    )
+    messagebox.showinfo("Contact Information", contact_text)
+
+# Create main window
+root = tk.Tk()
+root.title("Help - MyApp")
+root.geometry("500x400")
+
+# Title label
+title_label = tk.Label(root, text="Help & Support", font=("Arial", 18, "bold"))
+title_label.pack(pady=10)
+
+# Introduction section
+intro_label = tk.Label(root, text="Welcome to MyApp! Here’s a quick guide to help you get started.", font=("Arial", 12))
+intro_label.pack(anchor="w", padx=20, pady=10)
+
+# Instructions section
+instructions_label = tk.Label(root, text="How to Use MyApp:", font=("Arial", 14, "bold"))
+instructions_label.pack(anchor="w", padx=20, pady=(10, 0))
+
+instructions_text = (
+    "1. Open the app and sign in with your account.\n"
+    "2. Navigate through the main features using the menu.\n"
+    "3. Use 'Settings' to customize your experience.\n"
+    "4. Track your progress on the dashboard.\n"
+    "5. Access 'Help' anytime for guidance or support."
+)
+instructions_content = tk.Label(root, text=instructions_text, justify="left", font=("Arial", 10))
+instructions_content.pack(anchor="w", padx=20, pady=5)
+
+# FAQ section
+faq_label = tk.Label(root, text="Frequently Asked Questions:", font=("Arial", 14, "bold"))
+faq_label.pack(anchor="w", padx=20, pady=(10, 0))
+
+faq_text = (
+    "Q: How do I reset my password?\n"
+    "A: Go to 'Settings' > 'Account' > 'Reset Password'.\n\n"
+    "Q: Can I use MyApp offline?\n"
+    "A: Some features require an internet connection, but basic features work offline.\n\n"
+    "Q: How do I contact support?\n"
+    "A: Click the 'Contact Support' button below."
+)
+faq_content = tk.Label(root, text=faq_text, justify="left", font=("Arial", 10))
+faq_content.pack(anchor="w", padx=20, pady=5)
+
+# Contact Support Button
+contact_button = tk.Button(root, text="Contact Support", command=show_contact_info, bg="lightblue", font=("Arial", 10, "bold"))
+contact_button.pack(pady=20)
+
+# Run the application
+root.mainloop()

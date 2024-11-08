@@ -1,0 +1,55 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Function to handle fund transfer
+def transfer_funds():
+    sender_account = sender_account_var.get()
+    recipient_account = recipient_account_var.get()
+    amount = amount_var.get()
+    description = description_text.get("1.0", tk.END).strip()
+
+    # Input validation
+    if not sender_account or not recipient_account or not amount:
+        messagebox.showerror("Input Error", "All fields are required!")
+    elif not amount.isdigit() or float(amount) <= 0:
+        messagebox.showerror("Amount Error", "Please enter a valid amount!")
+    else:
+        messagebox.showinfo("Transaction Successful", 
+                            f"Successfully transferred ${amount} from account {sender_account} to account {recipient_account}.\n\nDescription: {description}")
+
+# Create main window
+root = tk.Tk()
+root.title("Fund Transfer Screen")
+root.geometry("400x500")  # Set window size
+
+# Variables for input fields
+sender_account_var = tk.StringVar()
+recipient_account_var = tk.StringVar()
+amount_var = tk.StringVar()
+
+# Title
+tk.Label(root, text="Fund Transfer", font=('Arial', 16, 'bold')).pack(pady=10)
+
+# Sender Account Number
+tk.Label(root, text="Sender Account Number:").pack(anchor='w', padx=10, pady=5)
+tk.Entry(root, textvariable=sender_account_var).pack(fill='x', padx=10)
+
+# Recipient Account Number
+tk.Label(root, text="Recipient Account Number:").pack(anchor='w', padx=10, pady=5)
+tk.Entry(root, textvariable=recipient_account_var).pack(fill='x', padx=10)
+
+# Amount to Transfer
+tk.Label(root, text="Amount to Transfer:").pack(anchor='w', padx=10, pady=5)
+tk.Entry(root, textvariable=amount_var).pack(fill='x', padx=10)
+
+# Transaction Description
+tk.Label(root, text="Description:").pack(anchor='w', padx=10, pady=5)
+description_text = tk.Text(root, height=5, width=30)
+description_text.pack(padx=10)
+
+# Transfer Button
+tk.Button(root, text="Transfer Funds", command=transfer_funds, bg="blue", fg="white").pack(pady=20)
+
+# Start the GUI event loop
+root.mainloop()
+

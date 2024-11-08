@@ -1,0 +1,95 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Function to capture and display the form data
+def submit_form():
+    name = name_entry.get()
+    age = age_entry.get()
+    gender = gender_var.get()
+    symptoms = []
+    for i in symptoms_listbox.curselection():
+        symptoms.append(symptoms_listbox.get(i))
+    disease_history = disease_history_var.get()
+    contact_number = contact_entry.get()
+    email = email_entry.get()
+
+    # Validate that all fields are filled
+    if not name or not age or not contact_number or not email:
+        messagebox.showwarning("Incomplete Form", "Please fill all required fields.")
+        return
+
+    # Display the data as a confirmation
+    form_data = (
+        f"Name: {name}\n"
+        f"Age: {age}\n"
+        f"Gender: {gender}\n"
+        f"Symptoms: {', '.join(symptoms)}\n"
+        f"Disease History: {'Yes' if disease_history else 'No'}\n"
+        f"Contact Number: {contact_number}\n"
+        f"Email: {email}"
+    )
+    messagebox.showinfo("Patient Registration Form", "Form Submitted Successfully!\n\n" + form_data)
+
+# Create main window
+root = tk.Tk()
+root.title("Patient Registration Form")
+root.geometry("400x500")
+
+# Title label
+title_label = tk.Label(root, text="Patient Registration Form", font=("Arial", 16, "bold"))
+title_label.pack(pady=10)
+
+# Name
+name_label = tk.Label(root, text="Name:")
+name_label.pack(anchor="w", padx=20)
+name_entry = tk.Entry(root)
+name_entry.pack(fill="x", padx=20, pady=5)
+
+# Age
+age_label = tk.Label(root, text="Age:")
+age_label.pack(anchor="w", padx=20)
+age_entry = tk.Entry(root)
+age_entry.pack(fill="x", padx=20, pady=5)
+
+# Gender
+gender_label = tk.Label(root, text="Gender:")
+gender_label.pack(anchor="w", padx=20)
+gender_var = tk.StringVar()
+gender_frame = tk.Frame(root)
+tk.Radiobutton(gender_frame, text="Male", variable=gender_var, value="Male").pack(side="left")
+tk.Radiobutton(gender_frame, text="Female", variable=gender_var, value="Female").pack(side="left")
+tk.Radiobutton(gender_frame, text="Other", variable=gender_var, value="Other").pack(side="left")
+gender_frame.pack(fill="x", padx=20, pady=5)
+
+# Symptoms
+symptoms_label = tk.Label(root, text="Symptoms:")
+symptoms_label.pack(anchor="w", padx=20)
+symptoms_listbox = tk.Listbox(root, selectmode="multiple")
+symptoms_options = ["Fever", "Cough", "Shortness of breath", "Chest pain", "Headache", "Nausea", "Fatigue"]
+for symptom in symptoms_options:
+    symptoms_listbox.insert(tk.END, symptom)
+symptoms_listbox.pack(fill="x", padx=20, pady=5)
+
+# Disease History
+disease_history_var = tk.IntVar()
+disease_history_check = tk.Checkbutton(root, text="Disease History", variable=disease_history_var)
+disease_history_check.pack(anchor="w", padx=20, pady=5)
+
+# Contact Number
+contact_label = tk.Label(root, text="Contact Number:")
+contact_label.pack(anchor="w", padx=20)
+contact_entry = tk.Entry(root)
+contact_entry.pack(fill="x", padx=20, pady=5)
+
+# Email
+email_label = tk.Label(root, text="Email:")
+email_label.pack(anchor="w", padx=20)
+email_entry = tk.Entry(root)
+email_entry.pack(fill="x", padx=20, pady=5)
+
+# Submit Button
+submit_button = tk.Button(root, text="Submit", command=submit_form)
+submit_button.pack(pady=20)
+
+# Run the application
+root.mainloop()
