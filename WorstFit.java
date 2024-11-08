@@ -1,63 +1,101 @@
-package Memory_Allocation;
-
-import java.util.*;
+import java.util.Scanner;
 
 public class WorstFit {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter the number of jobs: ");
-        int noOfJobs = sc.nextInt();
+        int jobsize = sc.nextInt();
 
-        System.out.print("Enter the number of blocks: ");
-        int noOfBlocks = sc.nextInt();
+        System.out.print("Enter the number of memory blocks: ");
+        int blocksize = sc.nextInt();
 
-        int[] jobs = new int[noOfJobs];
-        int[] blocks = new int[noOfBlocks];
-        boolean[] flagArr = new boolean[noOfBlocks];
+        int[] job = new int[jobsize];
+        int[] block = new int[blocksize];
+        int[] flag = new int[blocksize];
+        int[] allocation = new int[jobsize];
 
-        System.out.print("Enter the values of each job: ");
-        for (int i = 0; i < noOfJobs; i++) {
-            jobs[i] = sc.nextInt();
+        int totalMemoryUsed = 0;
+
+        System.out.println("Enter the size of each job:");
+        for (int i = 0; i < jobsize; i++) {
+            System.out.print("Job " + (i + 1) + ": ");
+            job[i] = sc.nextInt();
+            allocation[i] = -1;
         }
 
-        System.out.print("Enter the size of each block: ");
-        for (int i = 0; i < noOfBlocks; i++) {
-            blocks[i] = sc.nextInt();
+        System.out.println("Enter the size of each memory block:");
+        for (int i = 0; i < blocksize; i++) {
+            System.out.print("Block " + (i + 1) + ": ");
+            block[i] = sc.nextInt();
+            flag[i] = 0;
         }
 
-        double totalSumOfJobsDone = 0;
-
-        for (int i = 0; i < noOfJobs; i++) {
-            int worstBlockIndex = -1;
-
-            for (int j = 0; j < noOfBlocks; j++) {
-                if (jobs[i] <= blocks[j] && !flagArr[j]) {
-                    if (worstBlockIndex == -1 || blocks[j] > blocks[worstBlockIndex]) {
-                        worstBlockIndex = j;
+        for (int i = 0; i < jobsize; i++) {
+            int worstIdx = -1;
+            for (int j = 0; j < blocksize; j++) {
+                if (block[j] >= job[i] && flag[j] == 0) {
+                    if (worstIdx == -1 || block[j] > block[worstIdx]) {
+                        worstIdx = j;
                     }
                 }
             }
-
-            if (worstBlockIndex != -1) {
-                totalSumOfJobsDone += jobs[i];
-                flagArr[worstBlockIndex] = true;
+            if (worstIdx != -1) {
+                allocation[i] = worstIdx;
+                flag[worstIdx] = 1;
+                totalMemoryUsed += job[i];
+                System.out.println("Job " + (i + 1) + " is allocated to Block " + (worstIdx + 1));
+            } else {
+                System.out.println("Job " + (i + 1) + " could not be allocated.");
             }
         }
 
-        double totalSumOfBlockSize = 0;
-        for (int i = 0; i < noOfBlocks; i++) {
-            totalSumOfBlockSize += blocks[i];
+        int totalBlockSize = 0;
+        for (int i = 0; i < blocksize; i++) {
+            totalBlockSize += block[i];
         }
+        double averageMemoryUtilization = (double) totalMemoryUsed / totalBlockSize * 100;
 
-        System.out.println("Proportion of jobs allocated: "
-                + (totalSumOfJobsDone / totalSumOfBlockSize));
+        System.out.printf("\nTotal Memory Used: %d\n", totalMemoryUsed);
+        System.out.printf("Average Memory Utilization: %.2f%%\n", averageMemoryUtilization);
+
+        System.out.println("\nJob Allocation Results:");
+        for (int i = 0; i < jobsize; i++) {
+            if (allocation[i] != -1) {
+                System.out.println("Job " + (i + 1) + " -> Block " + (allocation[i] + 1));
+            } else {
+                System.out.println("Job " + (i + 1) + " -> Not Allocated");
+            }
+        }
 
         sc.close();
     }
 }
 
 
-//4 5 212 417 112 426 100 500 200 300 600
-//400 200 600 450 500 100 250 300
-//130 270 80 185 440 380 510
+// Enter the number of jobs: 4
+// Enter the number of memory blocks: 5
+// Enter the size of each job:
+// Job 1: 212
+// Job 2: 147
+// Job 3: 112
+// Job 4: 426
+// Enter the size of each memory block:
+// Block 1: 100
+// Block 2: 500
+// Block 3: 300
+// Block 4: 600
+// Block 5: 200
+// Job 1 is allocated to Block 4
+// Job 2 is allocated to Block 2
+// Job 3 is allocated to Block 3
+// Job 4 could not be allocated.
+
+// Total Memory Used: 471
+// Average Memory Utilization: 27.71%
+
+// Job Allocation Results:
+// Job 1 -> Block 4
+// Job 2 -> Block 2
+// Job 3 -> Block 3
+// Job 4 -> Not Allocated

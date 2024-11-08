@@ -1,0 +1,8 @@
+cd Documents/
+ls
+javac B1.java
+ls
+javac -h . -classpath . B1.java
+ls
+gcc -shared -FPIC -I/usr/lib/jvm/java-11-openjdk-amd64/include -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux B1.c -o libB1.so
+java -Djava.library.path=. B1
